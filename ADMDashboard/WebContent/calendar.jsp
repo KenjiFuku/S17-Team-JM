@@ -99,7 +99,9 @@
 			</div></li>
 			<li><a href="homepage_orgrep.jsp"><i class="material-icons">dashboard</i>Dashboard</a></li>
 						<li><div class="divider"></div></li>
-			<li><a href="calendar.jsp"><i class="material-icons">today</i>Calendar of special deadlines</a></li>
+						
+			<li><form id="servlet-home-rep" action="HomeOrgRepServlet"></form>
+        <a href="#" id="link-nav-home-rep"><i class="material-icons">today</i>Calendar of special deadlines</a></li>
       <li><a href="" download = "CSO1617_Activity_Report"> <i class="material-icons">get_app</i>Download Post-Activity Form</a></li>
 		  </ul>
 		  
@@ -132,6 +134,10 @@
 <script src="js/calendar.js"></script>
 <script>
   $(document).ready(function() {
+	  $("#link-nav-home-rep").click(function(evt) {
+			$("#servlet-home-rep").submit();
+		   evt.preventDefault();
+		});
 	   $('.modal-trigger').leanModal();	
 		 
         $('select').material_select();
