@@ -17,6 +17,7 @@ import model.calendar.CalendarEvent;
 import service.CalendarEventService;
 import service.OrgService;
 import servlet.MasterServlet;
+import utils.SessionManager;
 
 public class AjaxUserCalendarServlet{
 
@@ -35,17 +36,18 @@ public class AjaxUserCalendarServlet{
 			throws ServletException, IOException {
 		ArrayList<CalendarEvent> events;
 		
-		Org org = null;
+		String orgcode = null;
 		
 		// needs orgcode of logged in user to be stored at log in
-		
-		if(org != null)
-			events = CalendarEventService.getEventsByOrg(org.getOrgcode(), Status.DONE);
+		/*
+		orgcode = (String) SessionManager.getAttribute(request, User.COL_ORGCODE);
+		if(orgcode != null)
+			events = CalendarEventService.getEventsByOrg(orgcode, Status.DONE);
 		else
 			events = CalendarEventService.getAllEvents(Status.DONE);
-		
+		*/
 
-		//events = CalendarEventService.getEventsByOrg("imes", Status.DONE);
+		events = CalendarEventService.getEventsByOrg("imes", Status.DONE);
 		//events.add(new CalendarEvent(1, "TEST", "2016-11-15", "2016-11-16", "#333"));
 		String json = new Gson().toJson(events);
 		response.setContentType("application/json");
