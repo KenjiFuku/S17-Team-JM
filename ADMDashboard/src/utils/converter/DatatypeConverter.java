@@ -1,5 +1,6 @@
 package utils.converter;
 
+import java.awt.Color;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,19 +11,26 @@ public class DatatypeConverter {
 
 	private DatatypeConverter(){}
 	
-	public static String toHex(int r, int g, int b){return "#"+Integer.toHexString(r) 
-	+ Integer.toHexString(g) 
-	+ Integer.toHexString(b);
+	public static String toHex(Color color){
+		return "#"+Integer.toHexString(color.getRed()) 
+				+ Integer.toHexString(color.getGreen()) 
+				+ Integer.toHexString(color.getBlue());
+	}
+	
+	public static String toHex(int r, int g, int b){
+		return "#"+Integer.toHexString(r) 
+				+ Integer.toHexString(g) 
+				+ Integer.toHexString(b);
 	}
 	
 	public static String toString(Calendar calendar, String format){ // BUGGY DO NOT USE
-		Calendar cal = Calendar.getInstance();
-		//cal.add(Calendar.DATE, 1);
+		
+		//calendar.add(Calendar.DATE, 1);
 		SimpleDateFormat format1 = new SimpleDateFormat(format);
 		//System.out.println(cal.getTime());
 		// Output "Wed Sep 26 14:23:28 EST 2012"
 
-		String formatted = format1.format(cal.getTime());
+		String formatted = format1.format(calendar.getTime());
 		//System.out.println(formatted);
 		// Output "2012-09-26"
 

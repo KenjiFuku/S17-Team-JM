@@ -9,6 +9,7 @@ import java.util.Date;
 import factory.CalendarEventFactory;
 import model.Status;
 import model.calendar.CalendarEvent;
+import model.datetime.SimpleDate;
 import utils.converter.DatatypeConverter;
 import utils.db.Query;
 import utils.generator.RandomHexGenerator;
@@ -119,7 +120,7 @@ public class CalendarEventService {
 		return result;
 	}
 	
-	public static ArrayList<CalendarEvent> getEventsByOrg(String orgcode, Date date){
+	public static ArrayList<CalendarEvent> getEventsByOrg(String orgcode, SimpleDate date, Status status){
 		//TODO: implement date
 		ArrayList<CalendarEvent> result = new ArrayList<>();
 		ArrayList<Object> input = new ArrayList<>();
@@ -129,10 +130,14 @@ public class CalendarEventService {
 				+ " from"
 				+ " " + CalendarEvent.TABLE_EVENT
 				+ " natural join " + CalendarEvent.TABLE_EVENTDATE
-				+ " where "+CalendarEvent.COL_ORGCODE+"= ? " 
+				+ " where "+CalendarEvent.COL_ORGCODE+"= ? "
+				+ " and DATEPART(yyyy,"+CalendarEvent.COL_POSTACTDEADLINE+")= ? "  
+				+ " and DATEPART(mm,"+CalendarEvent.COL_POSTACTDEADLINE+")= ? "  
 				+ " ORDER BY "+CalendarEvent.COL_POSTACTDEADLINE+";";
 		
 		input.add(orgcode);
+		input.add(Integer.toString(date.getYear()));
+		input.add(Integer.toString(date.getMonth()));
 		
 		Query q = Query.getInstance();
 		ResultSet r = null;
