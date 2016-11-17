@@ -1,4 +1,4 @@
-package utils.converter;
+package utils;
 
 import java.util.Enumeration;
 
@@ -12,6 +12,7 @@ import service.UserService;
 
 public class SessionManager {
 	
+	// add to login servlet
 	public static User beginSession(HttpServletRequest request, HttpServletResponse response){
 
 		HttpSession session = request.getSession();
@@ -32,15 +33,13 @@ public class SessionManager {
 		session.setAttribute("logoURL", logoURL);
 		session.setAttribute(User.COL_ORGCODE, user.getOrgcode());
 		
-		// save cookies
-		
-		response.addCookie(new Cookie(User.COL_IDNUMBER, user.getUserID() + ""));		// add cookie to list of cookies
-		response.addCookie(new Cookie("logoURL", logoURL)); 
-		response.addCookie(new Cookie(User.COL_ORGCODE, user.getOrgcode())); 		
+		// save session id (for security we will only save the session id and not USERID or others)
+		response.addCookie(new Cookie("SSID", session.getId()));		// add cookie to list of cookies	
 		
 		return user;
 	}
 	
+	// add to logout servlet
 	public static void endSession(HttpServletRequest request, HttpServletResponse response){
 		Cookie[] cookies;
 		HttpSession session = request.getSession();
@@ -62,19 +61,51 @@ public class SessionManager {
 		}
 	}
 	
-	// to get individual attributes
-	public static Object getAttribute(HttpServletRequest request, String name){
-		return request.getSession().getAttribute(name);
+	// checks if the current session stored in the client is equal to the session in server
+	// please use at the start of all webpages to check whether a user is logged in	/ out
+	//        or user is using an old session
+	public static boolean isSessionValid(HttpServletRequest request, String name){
+		Cookie[] cookies;
+		HttpSession session = request.getSession();
+		cookies = request.getCookies();
+		
+		if(session == null || cookies == null)
+			return false;
+		
+		for(Cookie c: cookies)
+		if(c.getName().equals("SSID")) 
+			if(c.getValue().equals(session.getId()))
+				 return true;
+		return false;
 	}
 	
-	// get all atributes
+	// get attribute
+	public static Object getAttribute(HttpServletRequest request, String name){
+		Cookie[] cookies;
+
+		cookies = request.getCookies();
+		
+		for(Cookie c: cookies)
+		if(c.getName().equals(request)) 
+			if(!c.getValue().equals(""))
+				return c.getValue();
+
+		if(request.getSession() != null)
+			return request.getSession().getAttribute(name);
+		return null;
+	}
+	
+	// get all attribute names
 	public static Enumeration<String> getAttributeNames(HttpServletRequest request){
-		return request.getSession().getAttributeNames();
+		if(request.getSession() != null)
+			return request.getSession().getAttributeNames();
+		return null;
 	}
 	
 	// to add attributes
 	public static void setAttribute(HttpServletRequest request, String name, Object attribute){
-		request.getSession().setAttribute(name, attribute);
+		if(request.getSession() != null)
+			request.getSession().setAttribute(name, attribute);
 	}
 	
 }

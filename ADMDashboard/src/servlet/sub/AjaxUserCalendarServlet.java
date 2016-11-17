@@ -34,16 +34,8 @@ public class AjaxUserCalendarServlet{
 	private static void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ArrayList<CalendarEvent> events;
-
-		Cookie[] cookies = request.getCookies();
 		
 		Org org = null;
-		
-		for(int i = 0; i < cookies.length; i ++) {
-			if(cookies[i].getName().equals(User.COL_IDNUMBER)) {
-				org = OrgService.searchOrg(Integer.parseInt(cookies[i].getValue()));
-			}
-		}
 		
 		// needs orgcode of logged in user to be stored at log in
 		
