@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="ADMDashboard">
+    <wb-module deploy-name="ADMDashboard_Test">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="ADMDashboard"/>
-        <property name="java-output-path" value="/ADMDashboard/build/classes"/>
+        <property name="java-output-path" value="/ADMDashboard_Test/build/classes"/>
+        <property name="context-root" value="ADMDashboard_Test"/>
     </wb-module>
 </project-modules>
