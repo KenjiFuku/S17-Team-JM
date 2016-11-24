@@ -81,14 +81,14 @@ public class SessionManager {
 	
 	// get attribute
 	public static Object getAttribute(HttpServletRequest request, String name){
-		Cookie[] cookies;
+		//Cookie[] cookies;
 
-		cookies = request.getCookies();
+		//cookies = request.getCookies();
 		
-		for(Cookie c: cookies)
-		if(c.getName().equals(request)) 
-			if(!c.getValue().equals(""))
-				return c.getValue();
+		//for(Cookie c: cookies)
+		//if(c.getName().equals(request)) 
+		//	if(!c.getValue().equals(""))
+		//		return c.getValue();
 
 		if(request.getSession() != null)
 			return request.getSession().getAttribute(name);
